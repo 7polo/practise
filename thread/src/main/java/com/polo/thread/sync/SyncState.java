@@ -20,5 +20,18 @@ public class SyncState {
         synchronized (obj2) {
             System.out.println(ClassLayout.parseInstance(obj2).toPrintable());
         }
+
+        System.out.println(ClassLayout.parseInstance(obj2).toPrintable());
+
+        for (int i = 0; i < 30; i++) {
+            final int j = i;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println("次数：" + j);
+                        System.out.println(ClassLayout.parseInstance(obj2).toPrintable());
+                }
+            }).start();
+        }
     }
 }
