@@ -1,5 +1,6 @@
 package com.polo.mybatis.mybatis.mapper;
 
+import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Flush;
 import org.apache.ibatis.annotations.Select;
 
