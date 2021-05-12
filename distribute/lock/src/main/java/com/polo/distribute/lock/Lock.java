@@ -11,7 +11,7 @@ public interface Lock {
      *
      * @param requestId
      */
-    void lock(String requestId);
+    boolean lock(String requestId);
 
     /**
      * 解锁
