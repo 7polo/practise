@@ -22,7 +22,11 @@ public class DemoInterceptor implements Interceptor {
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        return invocation.proceed();
+        long start = System.currentTimeMillis();
+        Object obj = invocation.proceed();
+        long end = System.currentTimeMillis();
+        System.out.println("执行耗时：" + (end - start) + " ms");
+        return obj;
     }
 
     @Override
