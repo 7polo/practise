@@ -2,22 +2,50 @@ package com.polo.distribute.lock;
 
 import com.polo.distribute.lock.redis.RedisLock;
 
+import java.util.Random;
+
 /**
  * @author polo
  */
 public class DistributeLockDemo {
 
     public static void main(String[] args) {
+        Lock lock = new RedisLock();
         for (int i = 0; i < 10; i++) {
-            final int index = i;
-            new Thread(new Runnable() {
+            Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Lock lock = new RedisLock();
-                    boolean result = lock.lock("" + index);
-                    System.out.println("加锁:" + (result ? "成功" : "失败"));
+                    Thread client = Thread.currentThread();
+                    new Thread().setDaemon(true);
+                    while (true) {
+                        if (lock.lock(client.getName())) {
+                            System.out.println();
+                            System.out.println(client.getName() + " get lock ");
+                            try {
+                                doSomething();
+                            } finally {
+                                System.out.println(client.getName() + " unlock ");
+                                lock.unlock(client.getName());
+                            }
+                            break;
+                        }
+                    }
                 }
-            }).start();
+            });
+            t.setName("client" + i);
+            t.start();
         }
+    }
+
+    public static void doSomething() {
+        System.out.println(Thread.currentThread().getName() + " do something");
+        Random random = new Random();
+        long s = 1000 * random.nextInt(4);
+        try {
+            Thread.sleep(s);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(Thread.currentThread().getName() + " do something success 耗时:" + s + "ms");
     }
 }

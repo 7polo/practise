@@ -18,5 +18,5 @@ public interface Lock {
      *
      * @param requestId
      */
-    void unlock(String requestId);
+    boolean unlock(String requestId);
 }
