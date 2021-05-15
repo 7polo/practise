@@ -4,6 +4,7 @@ import com.polo.distribute.lock.Lock;
 import redis.clients.jedis.Jedis;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Timer;
 
 /**
@@ -22,6 +23,12 @@ public class RedisLock implements Lock {
 
     @Override
     public boolean lock(String requestId) {
+        // 睡眠毫秒， 避免同一时间太多的竞争
+        try {
+            Thread.sleep(new Random().nextInt(10) * 100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Jedis jedis = RedisTool.getRedis();
         // 通过一个操作完成 NX 和 PX
         // 即当该 key 不存在时才插入并设置过期时间， 保证了原子性

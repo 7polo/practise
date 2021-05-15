@@ -18,7 +18,7 @@ public class RedisTool {
         config.setMaxIdle(100);
         config.setMinIdle(50);
         config.setBlockWhenExhausted(true);
-        pool = new JedisPool(config, "127.0.0.1", 6379, 5000);
+        pool = new JedisPool(config, "172.22.5.100", 6379, 5000);
     }
 
     public static Jedis getRedis() {

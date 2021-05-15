@@ -11,12 +11,11 @@ public class DistributeLockDemo {
 
     public static void main(String[] args) {
         Lock lock = new RedisLock();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     Thread client = Thread.currentThread();
-                    new Thread().setDaemon(true);
                     while (true) {
                         if (lock.lock(client.getName())) {
                             System.out.println();
