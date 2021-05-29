@@ -17,6 +17,7 @@ public class DemoService {
 
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.SUPPORTS)
     public void doQuery() {
+        this.getClass().getMethods();
         demoMapper.selectTest();
     }
 }
